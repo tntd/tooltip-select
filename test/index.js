@@ -1,19 +1,34 @@
-import ReactDOM from "react-dom";
-import { NoOperate, MultiUser } from "../src/index"; //"user-status-modal";
-const UserStatusModalExample = () => {
-    return (
-        <MultiUser
-            lang="cn"
-            showModal={true}
-            noOperateTime="100" // 静置时间
-            modalShowEvent={()=>{ // 弹窗回调
-                console.log(1)
-            }}
-            modalCloseEvent={()=>{ // 点击弹窗确定回调
-                console.log(2)
-            }}
-        />
-    )
-}
 
-ReactDOM.render(<UserStatusModalExample />, document.getElementById("app"));
+import { useState } from "react";
+import TooltipSelect from "../src/index";
+import ReactDOM from "react-dom";
+import { Select, Tooltip } from "antd";
+const Option = Select.Option;
+
+const Demo=(props) => {
+  const [title, setTitle] = useState();
+  const aTitle = (title) => {
+    return <a>{title}</a>;
+  };
+  return (
+    <TooltipSelect
+    isMemo={true}
+      setTitle={(value) => {
+        return aTitle(value);
+      }}
+      placeholder="66"
+      value={title}
+      onChange={(value) => {
+        setTitle(value);
+      }}
+      dropdownMatchSelectWidth={false}
+    >
+      <Option value={1}>1+1</Option>
+      <Option value={2}>2+2</Option>
+    </TooltipSelect>
+  );
+};
+
+
+
+ReactDOM.render(<Demo />, document.getElementById("app"));
