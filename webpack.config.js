@@ -37,9 +37,17 @@ let webpackConfig = {
 								"import",
 								{
 									libraryName: "antd",
-									libraryDirectory: "lib",
+									libraryDirectory: "es",
 									style: true
 								}
+							],
+							[
+								"import",
+								{
+									"libraryName": "tntd",
+									"libraryDirectory": "es",
+								},
+								"tntd"
 							],
 							"@babel/plugin-transform-runtime",
 						]
@@ -52,11 +60,25 @@ let webpackConfig = {
 					{ loader: "style-loader" },
 					{ loader: "css-loader" },
 					{
-						loader: "less-loader",
+						loader: 'less-loader',
 						options: {
-							javascriptEnabled: true
+							lessOptions: {
+								javascriptEnabled: true,
+								modules: true,
+								localIndexName: '[name]__[local]___[chunkhash:base64:5]',
+								modifyVars: {
+									// hack: 'true; @import "~@tntd/antd-cover/tnt.less";'
+									hack: 'true; @import "~tntd/themes/default/variables.less";'
+								}
+							}
 						}
-					}
+					},
+					{
+						loader: 'babel-loader',
+						options: {
+						  presets: ['@babel/preset-env']
+						}
+					  }
 				]
 			},
 			{

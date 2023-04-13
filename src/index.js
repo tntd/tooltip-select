@@ -20,7 +20,6 @@ const TooltipSelect = memo(
             });
             return label;
         };
-        debugger
         return (
             <>
                 <Tooltip placement={placement} title={getTitle(value)}>

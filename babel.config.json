@@ -52,16 +52,22 @@
             {
                 "libraryName": "tntd",
                 "libraryDirectory": "es",
-                "camel2DashComponentName": false
             },
             "tntd"
         ],
-		[
-            "@babel/plugin-transform-modules-commonjs",
-            {
-                "allowTopLevelThis": true
-            }
-        ],
+		// [
+        //     "@babel/plugin-transform-modules-commonjs",
+        //      {
+        //         "strictMode":false
+        //     }
+        // ],
+        // [
+        //     "@babel/plugin-transform-modules-commonjs",
+        //     {
+        //         "allowTopLevelThis": true,
+        //         // "strictMode":true
+        //     }
+        // ],
         [
             "@babel/plugin-proposal-decorators",
             {
