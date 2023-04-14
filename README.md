@@ -1,3 +1,5 @@
+# 4.x版本基于tntd2.x
+
 # @tntd/ant3-virtual-select
 
 基于 ant3 实现带悬浮显示的下拉列表

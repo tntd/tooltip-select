@@ -1,19 +1,19 @@
 const webpack = require("webpack");
 let webpackConfig = {
 	entry: "./test/index.js",
-	output:{
-		filename:"index.js",
-		publicPath:"/"
+	output: {
+		filename: "index.js",
+		publicPath: "/"
 	},
-	mode:"development",
-	devtool: "cheap-module-eval-source-map" ,
+	mode: "development",
+	devtool: "cheap-module-eval-source-map",
 	devServer: {
 		port: 7979,
 		open: true,
-		host: "0.0.0.0",
+		host: "localhost",
 		openPage: "./test.html",
 		hot: true,
-		publicPath:"/"
+		publicPath: "/"
 	},
 	module: {
 		rules: [
@@ -32,24 +32,24 @@ let webpackConfig = {
 							[
 								"@babel/plugin-proposal-class-properties",
 								{ loose: true }
-                            ],
-                            [
-								"import",
-								{
-									libraryName: "antd",
-									libraryDirectory: "es",
-									style: true
-								}
 							],
 							[
-								"import",
-								{
-									"libraryName": "tntd",
-									"libraryDirectory": "es",
-								},
-								"tntd"
-							],
-							"@babel/plugin-transform-runtime",
+                                "import",
+                                {
+                                    "libraryName": "antd",
+                                    "libraryDirectory": "es",
+                                    "style": true // `style: true` 会加载 less 文件
+                                }
+                            ],
+                            [
+                                "import",
+                                {
+                                    "libraryName": "tntd",
+                                    "libraryDirectory": "es"
+                                },
+                                "tntd"
+                            ],
+							"@babel/plugin-transform-runtime"
 						]
 					}
 				}]
@@ -60,32 +60,21 @@ let webpackConfig = {
 					{ loader: "style-loader" },
 					{ loader: "css-loader" },
 					{
-						loader: 'less-loader',
+						loader: "less-loader",
 						options: {
-							lessOptions: {
-								javascriptEnabled: true,
-								modules: true,
-								localIndexName: '[name]__[local]___[chunkhash:base64:5]',
-								modifyVars: {
-									// hack: 'true; @import "~@tntd/antd-cover/tnt.less";'
-									hack: 'true; @import "~tntd/themes/default/variables.less";'
-								}
-							}
+							javascriptEnabled: true,
+                            modifyVars: {
+                                hack: 'true; @import "~tntd/themes/default/variables.less";'
+                            }
 						}
-					},
-					{
-						loader: 'babel-loader',
-						options: {
-						  presets: ['@babel/preset-env']
-						}
-					  }
+					}
 				]
 			},
 			{
 				test: /\.(png|jpe?g|gif|svg)(\?.*)?$/,
 				use: [
 					{
-						loader: 'url-loader'
+						loader: "url-loader"
 					}
 				]
 			}
@@ -96,7 +85,7 @@ let webpackConfig = {
 		new webpack.HotModuleReplacementPlugin(),
 		new webpack.ProvidePlugin({
 			React: "react"
-		}),
+		})
 	]
 };
 module.exports = webpackConfig;
