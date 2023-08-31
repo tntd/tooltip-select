@@ -15,6 +15,7 @@ let webpackConfig = {
 		hot: true,
 		publicPath: "/"
 	},
+	
 	module: {
 		rules: [
 			{

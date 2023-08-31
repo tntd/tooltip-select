@@ -1,13 +1,12 @@
 import { Select, Tooltip } from 'antd';
 import VirtualSelect from '@tntd/ant3-virtual-select';
-import { memo, useCallback, useMemo, useState } from 'react';
+import { memo } from 'react';
 import { isEqual } from 'lodash';
-
+const Option=Select.Option;
 const TooltipSelect = memo(
     (props) => {
-        const { children, value, isVirtual = false, placement = 'top', } = props;
-
-        //获取title dom 
+        debugger
+        const { children, value, isVirtual = false, placement = 'top' } = props;
         const getTitle = (value) => {
             let label = '';
             let arr = [];
@@ -23,25 +22,15 @@ const TooltipSelect = memo(
             });
             return label;
         };
-
-        //获取添加Tooltip的option子项
-        let tooltipChildren = useMemo(() => {
-            return children?.map(item => {
-                return (
-                    <Select.Option {...item?.props}>
-                        <Tooltip title={getTitle(item?.props?.value)}>
-                            {item?.props?.children}
-                        </Tooltip>
-                    </Select.Option>
-                );
-            });
-        }, [children]);
-
+        let tooltipChildren = children?.map(item=>{
+            return item=<Option {...item?.props}><Tooltip title={getTitle(item?.props?.value)}>{item?.props?.children}</Tooltip></Option>
+            // return item
+        });
         return (
             <>
-                {isVirtual ?
-                    <VirtualSelect {...props} >{tooltipChildren}</VirtualSelect>
-                    : <Select {...props} >{tooltipChildren}</Select>}
+                {/* <Tooltip placement={placement} title={getTitle(value)}> */}
+                    {isVirtual ? <VirtualSelect {...props}>{tooltipChildren}</VirtualSelect> : <Select {...props}>{tooltipChildren}</Select>}
+                {/* </Tooltip> */}
             </>
         );
     },
