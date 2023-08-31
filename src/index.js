@@ -5,14 +5,15 @@ import { isEqual } from 'lodash';
 
 const TooltipSelect = memo(
     (props) => {
-        const { children, value, isVirtual = false, placement = 'top', } = props;
+        const { children, value, isVirtual = false, placement = 'top', setTitle } = props;
 
         let Option = isVirtual ? VirtualSelect.Option : Select.Option
         // //获取添加Tooltip的option子项
         let tooltipChildren = children?.map(item => {
+            debugger
             return (
                 <Option {...item?.props}>
-                    <Tooltip title={item?.props?.children}>
+                    <Tooltip title={setTitle ? setTitle(item?.props?.children) : item?.props?.children}>
                         {item?.props?.children}
                     </Tooltip>
                 </Option>

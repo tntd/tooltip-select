@@ -15,6 +15,9 @@ const Demo = (props) => {
       dropdownMatchSelectWidth={false}
       isVirtual
       value={title}
+      setTitle={(value) => {
+        return <a><div style={{ width: "5px", height: "5px", background: "red", display: "inline-block" }}></div>{value}</a>
+      }}
       onChange={(value) => {
         setTitle(value);
       }}
@@ -24,7 +27,8 @@ const Demo = (props) => {
     >
       {new Array(10000).fill(0)?.map((item, index) => (
         <Option key={index} value={index}>
-          {Math.random(10) + Math.random(1) * 0.00001}
+
+          <div>{Math.random(10) + Math.random(1) * 0.00001}</div>
         </Option>
       ))}
     </TooltipSelect>

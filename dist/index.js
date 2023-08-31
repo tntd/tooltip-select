@@ -18,14 +18,16 @@ var TooltipSelect = /*#__PURE__*/(0, _react.memo)(function (props) {
     _props$isVirtual = props.isVirtual,
     isVirtual = _props$isVirtual === void 0 ? false : _props$isVirtual,
     _props$placement = props.placement,
-    placement = _props$placement === void 0 ? 'top' : _props$placement;
+    placement = _props$placement === void 0 ? 'top' : _props$placement,
+    setTitle = props.setTitle;
   var Option = isVirtual ? _ant3VirtualSelect.default.Option : _select.default.Option;
   // //获取添加Tooltip的option子项
   var tooltipChildren = children === null || children === void 0 ? void 0 : children.map(function (item) {
-    var _item$props, _item$props2;
+    var _item$props, _item$props2, _item$props3;
+    debugger;
     return /*#__PURE__*/React.createElement(Option, item === null || item === void 0 ? void 0 : item.props, /*#__PURE__*/React.createElement(_tooltip.default, {
-      title: item === null || item === void 0 || (_item$props = item.props) === null || _item$props === void 0 ? void 0 : _item$props.children
-    }, item === null || item === void 0 || (_item$props2 = item.props) === null || _item$props2 === void 0 ? void 0 : _item$props2.children));
+      title: setTitle ? setTitle(item === null || item === void 0 || (_item$props = item.props) === null || _item$props === void 0 ? void 0 : _item$props.children) : item === null || item === void 0 || (_item$props2 = item.props) === null || _item$props2 === void 0 ? void 0 : _item$props2.children
+    }, item === null || item === void 0 || (_item$props3 = item.props) === null || _item$props3 === void 0 ? void 0 : _item$props3.children));
   });
   return /*#__PURE__*/React.createElement(React.Fragment, null, isVirtual ? /*#__PURE__*/React.createElement(_ant3VirtualSelect.default, props, tooltipChildren) : /*#__PURE__*/React.createElement(_select.default, props, tooltipChildren));
 }, function (pre, next) {
