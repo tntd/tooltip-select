@@ -22,10 +22,9 @@ const Demo = (props) => {
       allowClear
       showSearch
     >
-      {new Array(100).fill(0)?.map((item, index) => (
+      {new Array(10000).fill(0)?.map((item, index) => (
         <Option key={index} value={index}>
-          {index === 2 && 22222222}
-          {index !== 2 && (index % 2 === 0 ? Math.random(10) + Math.random(1) * 0.00001 : index)}
+          {Math.random(10) + Math.random(1) * 0.00001}
         </Option>
       ))}
     </TooltipSelect>

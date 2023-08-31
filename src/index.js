@@ -7,35 +7,18 @@ const TooltipSelect = memo(
     (props) => {
         const { children, value, isVirtual = false, placement = 'top', } = props;
 
-        //获取title dom 
-        const getTitle = (value) => {
-            let label = '';
-            let arr = [];
-            if (!children?.length) {
-                arr.push(children);
-            } else {
-                arr = children;
-            }
-            arr?.forEach((item) => {
-                if (item?.props?.value === value) {
-                    label = item?.props?.children;
-                }
-            });
-            return label;
-        };
+        let Option = isVirtual ? VirtualSelect.Option : Select.Option
+        // //获取添加Tooltip的option子项
+        let tooltipChildren = children?.map(item => {
+            return (
+                <Option {...item?.props}>
+                    <Tooltip title={item?.props?.children}>
+                        {item?.props?.children}
+                    </Tooltip>
+                </Option>
+            );
+        });
 
-        //获取添加Tooltip的option子项
-        let tooltipChildren = useMemo(() => {
-            return children?.map(item => {
-                return (
-                    <Select.Option {...item?.props}>
-                        <Tooltip title={getTitle(item?.props?.value)}>
-                            {item?.props?.children}
-                        </Tooltip>
-                    </Select.Option>
-                );
-            });
-        }, [children]);
 
         return (
             <>
