@@ -1,5 +1,4 @@
-import { Select, Tooltip } from 'antd';
-import VirtualSelect from '@tntd/ant3-virtual-select';
+import { Select, Tooltip, TntdSelect } from 'tntd';
 import { memo, useCallback, useMemo, useState } from 'react';
 import { isEqual } from 'lodash';
 
@@ -7,13 +6,15 @@ const TooltipSelect = memo(
     (props) => {
         const { children, value, isVirtual = false, placement = 'top', setTitle } = props;
 
-        let Option = isVirtual ? VirtualSelect.Option : Select.Option
+        let Option = isVirtual ? TntdSelect.Option : Select.Option
         // //获取添加Tooltip的option子项
         let tooltipChildren = children?.map(item => {
             return (
                 <Option {...item?.props}>
                     <Tooltip title={setTitle ? setTitle(item?.props?.children) : item?.props?.children}>
-                        {item?.props?.children}
+                        <span style={{ marginRight: "5px" }}>
+                            {item?.props?.children}
+                        </span>
                     </Tooltip>
                 </Option>
             );
@@ -23,7 +24,7 @@ const TooltipSelect = memo(
         return (
             <>
                 {isVirtual ?
-                    <VirtualSelect {...props} >{tooltipChildren}</VirtualSelect>
+                    <TntdSelect {...props} >{tooltipChildren}</TntdSelect>
                     : <Select {...props} >{tooltipChildren}</Select>}
             </>
         );

@@ -1,6 +1,6 @@
 {
   "name": "@tntd/tooltip-select",
-  "version": "4.1.8",
+  "version": "4.1.9",
   "main": "dist/index.js",
   "files": [
     "/dist"
@@ -11,15 +11,11 @@
   },
   "peerDependencies": {
     "antd": ">=3.20.1",
-    "tntd": ">=2.0.18",
+    "tntd": ">=2.6.5",
     "react": ">=16.8.0",
     "react-dom": ">=16.8.0"
   },
   "devDependencies": {
-    "antd": "^3.20.1",
-    "tntd": "^2.0.1",
-    "react": "^16.8.0",
-    "react-dom": "^16.8.0",
     "@babel/cli": "^7.12.1",
     "@babel/core": "^7.4.5",
     "@babel/plugin-proposal-class-properties": "^7.4.4",
@@ -30,12 +26,16 @@
     "@babel/preset-react": "^7.0.0",
     "@babel/types": "^7.4.4",
     "@tntd/ant3-virtual-select": "^2.0.2",
+    "antd": "^3.20.1",
     "babel-loader": "^8.0.6",
     "babel-plugin-import": "^1.12.0",
     "css-loader": "^3.0.0",
     "less": "^3.9.0",
     "less-loader": "^5.0.0",
+    "react": "^16.8.0",
+    "react-dom": "^16.8.0",
     "style-loader": "^0.23.1",
+    "tntd": "^2.6.5",
     "url-loader": "^4.1.0",
     "webpack": "^4.35.2",
     "webpack-bundle-analyzer": "^3.7.0",
@@ -58,12 +58,10 @@
   },
   "dependencies": {
     "@babel/plugin-syntax-import-meta": "^7.10.4",
-    "@tntd/ant3-virtual-select": "^2.0.2",
     "@tntd/tooltip-select": "^3.0.1",
     "babel": "^6.23.0",
     "babel-plugin-lodash": "^3.3.4",
     "babel-plugin-syntax-dynamic-import": "^6.18.0",
-    "lodash": "^4.17.21",
-    "tntd": "^2.0.20"
+    "lodash": "^4.17.21"
   }
 }
