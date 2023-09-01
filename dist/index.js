@@ -24,7 +24,6 @@ var TooltipSelect = /*#__PURE__*/(0, _react.memo)(function (props) {
   // //获取添加Tooltip的option子项
   var tooltipChildren = children === null || children === void 0 ? void 0 : children.map(function (item) {
     var _item$props, _item$props2, _item$props3;
-    debugger;
     return /*#__PURE__*/React.createElement(Option, item === null || item === void 0 ? void 0 : item.props, /*#__PURE__*/React.createElement(_tooltip.default, {
       title: setTitle ? setTitle(item === null || item === void 0 || (_item$props = item.props) === null || _item$props === void 0 ? void 0 : _item$props.children) : item === null || item === void 0 || (_item$props2 = item.props) === null || _item$props2 === void 0 ? void 0 : _item$props2.children
     }, item === null || item === void 0 || (_item$props3 = item.props) === null || _item$props3 === void 0 ? void 0 : _item$props3.children));

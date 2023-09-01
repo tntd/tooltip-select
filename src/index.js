@@ -10,7 +10,6 @@ const TooltipSelect = memo(
         let Option = isVirtual ? VirtualSelect.Option : Select.Option
         // //获取添加Tooltip的option子项
         let tooltipChildren = children?.map(item => {
-            debugger
             return (
                 <Option {...item?.props}>
                     <Tooltip title={setTitle ? setTitle(item?.props?.children) : item?.props?.children}>
