@@ -23,18 +23,18 @@ var TooltipSelect = /*#__PURE__*/(0, _react.memo)(function (props) {
     placement = _props$placement === void 0 ? 'top' : _props$placement,
     setTitle = props.setTitle,
     optionFilterProp = props.optionFilterProp,
-    filterOption = props.filterOption;
+    _props$filterOption = props.filterOption,
+    filterOption = _props$filterOption === void 0 ? undefined : _props$filterOption;
   var Option = isVirtual ? _tntdSelect.default.Option : _select.default.Option;
-  var originalFilterOption = filterOption; // 将原始的filterOption函数引用保存到一个新的变量
+  var temp = {}; // 将原始的filterOption函数引用保存到一个新的变量
 
   var filterOptionFunction = function filterOptionFunction(input, option) {
     // 创建一个新的option对象，其中props.children是由props.originChildren替换的
     var newOption = _objectSpread(_objectSpread({}, option), {}, {
       props: _objectSpread(_objectSpread({}, option.props), {}, {
-        children: option.props.originChildren
+        children: option.props.originChildren || option.props.children
       })
     });
-
     // 调用原始的filterOption函数
     return filterOption(input, newOption);
   };
@@ -42,6 +42,7 @@ var TooltipSelect = /*#__PURE__*/(0, _react.memo)(function (props) {
 
   var tooltipChildren = [];
   tooltipChildren = children === null || children === void 0 ? void 0 : children.map(function (item) {
+    var _item$props, _item$props2;
     if ((0, _lodash.isArray)(item)) {
       return item === null || item === void 0 ? void 0 : item.map(function (item1) {
         var _item1$props, _item1$props2;
@@ -53,38 +54,34 @@ var TooltipSelect = /*#__PURE__*/(0, _react.memo)(function (props) {
             title: setTitle ? setTitle(item1 === null || item1 === void 0 || (_item1$props3 = item1.props) === null || _item1$props3 === void 0 ? void 0 : _item1$props3.children) : item1 === null || item1 === void 0 || (_item1$props4 = item1.props) === null || _item1$props4 === void 0 ? void 0 : _item1$props4.children
           }, /*#__PURE__*/React.createElement("span", {
             style: {
-              marginRight: "5px"
+              marginRight: '5px'
             }
           }, item1 === null || item1 === void 0 || (_item1$props5 = item1.props) === null || _item1$props5 === void 0 ? void 0 : _item1$props5.children)));
-        } else {
-          return false;
         }
-      });
-    } else {
-      var _item$props, _item$props2;
-      if ((item === null || item === void 0 || (_item$props = item.props) === null || _item$props === void 0 ? void 0 : _item$props.value) !== undefined && (item === null || item === void 0 || (_item$props2 = item.props) === null || _item$props2 === void 0 ? void 0 : _item$props2.value) !== null) {
-        var _item$props3, _item$props4, _item$props5;
-        return /*#__PURE__*/React.createElement(Option, (0, _extends2.default)({}, item === null || item === void 0 ? void 0 : item.props, {
-          originChildren: item === null || item === void 0 ? void 0 : item.props.children
-        }), /*#__PURE__*/React.createElement(_tooltip.default, {
-          title: setTitle ? setTitle(item === null || item === void 0 || (_item$props3 = item.props) === null || _item$props3 === void 0 ? void 0 : _item$props3.children) : item === null || item === void 0 || (_item$props4 = item.props) === null || _item$props4 === void 0 ? void 0 : _item$props4.children
-        }, /*#__PURE__*/React.createElement("span", {
-          style: {
-            marginRight: "5px"
-          }
-        }, item === null || item === void 0 || (_item$props5 = item.props) === null || _item$props5 === void 0 ? void 0 : _item$props5.children)));
-      } else {
         return false;
-      }
+      });
     }
+    if ((item === null || item === void 0 || (_item$props = item.props) === null || _item$props === void 0 ? void 0 : _item$props.value) !== undefined && (item === null || item === void 0 || (_item$props2 = item.props) === null || _item$props2 === void 0 ? void 0 : _item$props2.value) !== null) {
+      var _item$props3, _item$props4, _item$props5;
+      return /*#__PURE__*/React.createElement(Option, (0, _extends2.default)({}, item === null || item === void 0 ? void 0 : item.props, {
+        originChildren: item === null || item === void 0 ? void 0 : item.props.children
+      }), /*#__PURE__*/React.createElement(_tooltip.default, {
+        title: setTitle ? setTitle(item === null || item === void 0 || (_item$props3 = item.props) === null || _item$props3 === void 0 ? void 0 : _item$props3.children) : item === null || item === void 0 || (_item$props4 = item.props) === null || _item$props4 === void 0 ? void 0 : _item$props4.children
+      }, /*#__PURE__*/React.createElement("span", {
+        style: {
+          marginRight: '5px'
+        }
+      }, item === null || item === void 0 || (_item$props5 = item.props) === null || _item$props5 === void 0 ? void 0 : _item$props5.children)));
+    }
+    return false;
   });
-  return /*#__PURE__*/React.createElement(React.Fragment, null, isVirtual ? /*#__PURE__*/React.createElement(_tntdSelect.default, (0, _extends2.default)({}, props, {
-    optionFilterProp: optionFilterProp === "children" ? "originChildren" : optionFilterProp,
-    filterOption: filterOptionFunction
-  }), tooltipChildren) : /*#__PURE__*/React.createElement(_select.default, (0, _extends2.default)({}, props, {
-    optionFilterProp: optionFilterProp === "children" ? "originChildren" : optionFilterProp,
-    filterOption: filterOptionFunction
-  }), children));
+  if (props.filterOption) {
+    temp.filterOption = filterOptionFunction;
+  }
+  if (props.optionFilterProp) {
+    temp.optionFilterProp = props.optionFilterProp === 'children' ? 'originChildren' : props.optionFilterProp;
+  }
+  return /*#__PURE__*/React.createElement(React.Fragment, null, isVirtual ? /*#__PURE__*/React.createElement(_tntdSelect.default, (0, _extends2.default)({}, props, temp), tooltipChildren) : /*#__PURE__*/React.createElement(_select.default, (0, _extends2.default)({}, props, temp), tooltipChildren));
 }, function (pre, next) {
   var _pre$children, _next$children;
   return pre.isMemo && (pre === null || pre === void 0 ? void 0 : pre.value) === (next === null || next === void 0 ? void 0 : next.value) && (0, _lodash.isEqual)(pre === null || pre === void 0 || (_pre$children = pre.children) === null || _pre$children === void 0 ? void 0 : _pre$children.length, next === null || next === void 0 || (_next$children = next.children) === null || _next$children === void 0 ? void 0 : _next$children.length);
