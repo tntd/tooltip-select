@@ -1,6 +1,6 @@
 {
   "name": "@tntd/tooltip-select",
-  "version": "4.1.9",
+  "version": "4.2.1",
   "main": "dist/index.js",
   "files": [
     "/dist"
