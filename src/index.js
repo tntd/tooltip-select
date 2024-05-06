@@ -1,79 +1,39 @@
-import { Select, Tooltip, TntdSelect } from 'tntd';
-import { memo, useCallback, useEffect, useMemo, useState } from 'react';
-import { isArray, isEqual } from 'lodash';
+"use strict";
 
-const TooltipSelect = memo(
+import React from "react";
+import { isEqual } from "lodash";
+import Tooltip from "tntd/es/tooltip";
+import Select from "tntd/es/select";
+import TntdSelect from "tntd/es/tntd-select";
+
+const TooltipSelect = React.memo(
     (props) => {
-        const { children, value, isVirtual = false, placement = 'top', setTitle, optionFilterProp, filterOption = undefined } = props;
+        const { children, value, isVirtual = false, placement = 'top', setTitle } = props;
 
-        let Option = isVirtual ? TntdSelect.Option : Select.Option;
-        let temp = {}; // 将原始的filterOption函数引用保存到一个新的变量
-
-        const filterOptionFunction = (input, option) => {
-            // 创建一个新的option对象，其中props.children是由props.originChildren替换的
-            const newOption = {
-                ...option,
-                props: {
-                    ...option.props,
-                    children: option.props.originChildren || option.props.children
+        const getTitle = (value) => {
+            let label = "";
+            let arr = [];
+            if (!children?.length) {
+                arr.push(children);
+            } else {
+                arr = children;
+            }
+            arr?.forEach((item) => {
+                if (item?.props?.value === value) {
+                    label = item?.props?.children;
                 }
-            };
-            // 调用原始的filterOption函数
-            return filterOption(input, newOption);
+            });
+
+            return label;
         };
-        // //获取添加Tooltip的option子项
-
-        let tooltipChildren = [];
-
-        tooltipChildren = children?.map((item) => {
-            if (isArray(item)) {
-                return item?.map((item1) => {
-                    if (item1?.props?.value !== undefined && item1?.props?.value !== null) {
-                        return (
-                            <Option {...item1?.props} originChildren={item1?.props.children}>
-                                <Tooltip title={setTitle ? setTitle(item1?.props?.children) : item1?.props?.children}>
-                                    <span style={{ marginRight: '5px' }}>{item1?.props?.children}</span>
-                                </Tooltip>
-                            </Option>
-                        );
-                    }
-                    return false;
-                });
-            }
-            if (item?.props?.value !== undefined && item?.props?.value !== null) {
-                return (
-                    <Option {...item?.props} originChildren={item?.props.children}>
-                        <Tooltip title={setTitle ? setTitle(item?.props?.children) : item?.props?.children}>
-                            <span style={{ marginRight: '5px' }}>{item?.props?.children}</span>
-                        </Tooltip>
-                    </Option>
-                );
-            }
-            return false;
-        });
-        if (props.filterOption) {
-            temp.filterOption = filterOptionFunction;
-        }
-        if (props.optionFilterProp) {
-            temp.optionFilterProp = props.optionFilterProp === 'children' ? 'originChildren' : props.optionFilterProp;
-        }
 
         return (
-            <>
-                {isVirtual ? (
-                    <TntdSelect {...props} {...temp}>
-                        {tooltipChildren}
-                    </TntdSelect>
-                ) : (
-                    <Select {...props} {...temp}>
-                        {tooltipChildren}
-                    </Select>
-                )}
-            </>
+            <Tooltip placement={placement} title={setTitle ? setTitle(value) : getTitle(value)}>
+                {isVirtual ? <TntdSelect {...props}>{children}</TntdSelect> : <Select {...props}>{children}</Select>}
+            </Tooltip>
         );
-    },
-    (pre, next) => {
+    }, (pre, next) => {
         return pre.isMemo && pre?.value === next?.value && isEqual(pre?.children?.length, next?.children?.length);
-    }
-);
+    });
+
 export default TooltipSelect;
