@@ -1,10 +1,19 @@
-import { Select, Tooltip, TntdSelect } from 'tntd';
-import { memo, useCallback, useEffect, useMemo, useState } from 'react';
+import { Select, Tooltip, TntdSelect, Ellipsis } from 'tntd';
+import { memo } from 'react';
 import { isArray, isEqual } from 'lodash';
 
 const TooltipSelect = memo(
     (props) => {
-        const { children, value, isVirtual = false, placement = 'top', setTitle, optionFilterProp, filterOption = undefined } = props;
+        const {
+            children,
+            value,
+            isVirtual = false,
+            placement = 'top',
+            setTitle,
+            optionFilterProp,
+            filterOption = undefined,
+            readOnly = false // 增加 readOnly 属性
+        } = props;
 
         let Option = isVirtual ? TntdSelect.Option : Select.Option;
         let temp = {}; // 将原始的filterOption函数引用保存到一个新的变量
@@ -21,8 +30,8 @@ const TooltipSelect = memo(
             // 调用原始的filterOption函数
             return filterOption(input, newOption);
         };
-        // //获取添加Tooltip的option子项
 
+        // 获取添加Tooltip的option子项
         let tooltipChildren = [];
 
         tooltipChildren = children?.map((item) => {
@@ -51,11 +60,25 @@ const TooltipSelect = memo(
             }
             return false;
         });
+
         if (props.filterOption) {
             temp.filterOption = filterOptionFunction;
         }
         if (props.optionFilterProp) {
             temp.optionFilterProp = props.optionFilterProp === 'children' ? 'originChildren' : props.optionFilterProp;
+        }
+
+        if (readOnly) {
+            // 如果是只读模式，直接显示选中内容而不渲染Select组件
+            const selectedOption = tooltipChildren?.find(
+                (option) => option?.props?.value === value
+            );
+            const dom = selectedOption ? selectedOption.props.originChildren : null
+            return (
+                <div style={{ display: 'inline-block', lineHeight: "32px", width: "100%" }}>
+                    <Ellipsis title={dom}>{dom}</Ellipsis>
+                </div>
+            );
         }
 
         return (
@@ -73,7 +96,12 @@ const TooltipSelect = memo(
         );
     },
     (pre, next) => {
-        return pre.isMemo && pre?.value === next?.value && isEqual(pre?.children?.length, next?.children?.length);
+        return (
+            pre.isMemo &&
+            pre?.value === next?.value &&
+            isEqual(pre?.children?.length, next?.children?.length)
+        );
     }
 );
+
 export default TooltipSelect;
