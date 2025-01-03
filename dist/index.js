@@ -91,16 +91,10 @@ var TooltipSelect = /*#__PURE__*/(0, _react.memo)(function (props) {
       var _option$props;
       return (option === null || option === void 0 || (_option$props = option.props) === null || _option$props === void 0 ? void 0 : _option$props.value) === value;
     });
-    var dom = selectedOption ? selectedOption.props.originChildren : null;
-    return /*#__PURE__*/React.createElement("div", {
-      style: {
-        display: 'inline-block',
-        lineHeight: "32px",
-        width: "100%"
-      }
-    }, /*#__PURE__*/React.createElement(_ellipsis.default, {
+    var dom = selectedOption ? selectedOption.props.originChildren : "- -";
+    return /*#__PURE__*/React.createElement(_ellipsis.default, {
       title: dom
-    }, dom));
+    }, dom);
   }
   return /*#__PURE__*/React.createElement(React.Fragment, null, isVirtual ? /*#__PURE__*/React.createElement(_tntdSelect.default, (0, _extends2.default)({}, props, temp), tooltipChildren) : /*#__PURE__*/React.createElement(_select.default, (0, _extends2.default)({}, props, temp), tooltipChildren));
 }, function (pre, next) {

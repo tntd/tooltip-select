@@ -73,11 +73,9 @@ const TooltipSelect = memo(
             const selectedOption = tooltipChildren?.find(
                 (option) => option?.props?.value === value
             );
-            const dom = selectedOption ? selectedOption.props.originChildren : null
+            const dom = selectedOption ? selectedOption.props.originChildren : "- -"
             return (
-                <div style={{ display: 'inline-block', lineHeight: "32px", width: "100%" }}>
-                    <Ellipsis title={dom}>{dom}</Ellipsis>
-                </div>
+                <Ellipsis title={dom}>{dom}</Ellipsis>
             );
         }
 
