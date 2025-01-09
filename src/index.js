@@ -1,7 +1,7 @@
 import { Select, Tooltip, TntdSelect, Ellipsis } from 'tntd';
 import { memo } from 'react';
 import { isArray, isEqual } from 'lodash';
-
+import "./index.less"
 const TooltipSelect = memo(
     (props) => {
         const {
@@ -53,7 +53,7 @@ const TooltipSelect = memo(
                 return (
                     <Option {...item?.props} originChildren={item?.props.children}>
                         <Tooltip title={setTitle ? setTitle(item?.props?.children) : item?.props?.children}>
-                            <span style={{ marginRight: '5px' }}>{item?.props?.children}</span>
+                            <span className="content" style={{ marginRight: '5px', width: "95%", display: "block", overflow: "hidden", textOverflow: "ellipsis" }}>{item?.props?.children}</span>
                         </Tooltip>
                     </Option>
                 );
@@ -82,11 +82,11 @@ const TooltipSelect = memo(
         return (
             <>
                 {isVirtual ? (
-                    <TntdSelect {...props} {...temp}>
+                    <TntdSelect {...props} {...temp} className={`tooltip-select ${props.className || ''}`}>
                         {tooltipChildren}
                     </TntdSelect>
                 ) : (
-                    <Select {...props} {...temp}>
+                    <Select {...props} {...temp} className={`tooltip-select ${props.className || ''}`}>
                         {tooltipChildren}
                     </Select>
                 )}

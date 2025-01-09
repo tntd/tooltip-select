@@ -13,6 +13,7 @@ var _select = _interopRequireDefault(require("tntd/es/select"));
 var _tntdSelect = _interopRequireDefault(require("tntd/es/tntd-select"));
 var _react = require("react");
 var _lodash = require("lodash");
+require("./index.less");
 function ownKeys(e, r) { var t = Object.keys(e); if (Object.getOwnPropertySymbols) { var o = Object.getOwnPropertySymbols(e); r && (o = o.filter(function (r) { return Object.getOwnPropertyDescriptor(e, r).enumerable; })), t.push.apply(t, o); } return t; }
 function _objectSpread(e) { for (var r = 1; r < arguments.length; r++) { var t = null != arguments[r] ? arguments[r] : {}; r % 2 ? ownKeys(Object(t), !0).forEach(function (r) { (0, _defineProperty2.default)(e, r, t[r]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys(Object(t)).forEach(function (r) { Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r)); }); } return e; }
 var TooltipSelect = /*#__PURE__*/(0, _react.memo)(function (props) {
@@ -71,8 +72,13 @@ var TooltipSelect = /*#__PURE__*/(0, _react.memo)(function (props) {
       }), /*#__PURE__*/React.createElement(_tooltip.default, {
         title: setTitle ? setTitle(item === null || item === void 0 || (_item$props3 = item.props) === null || _item$props3 === void 0 ? void 0 : _item$props3.children) : item === null || item === void 0 || (_item$props4 = item.props) === null || _item$props4 === void 0 ? void 0 : _item$props4.children
       }, /*#__PURE__*/React.createElement("span", {
+        className: "content",
         style: {
-          marginRight: '5px'
+          marginRight: '5px',
+          width: "95%",
+          display: "block",
+          overflow: "hidden",
+          textOverflow: "ellipsis"
         }
       }, item === null || item === void 0 || (_item$props5 = item.props) === null || _item$props5 === void 0 ? void 0 : _item$props5.children)));
     }
@@ -96,7 +102,11 @@ var TooltipSelect = /*#__PURE__*/(0, _react.memo)(function (props) {
       title: dom
     }, dom);
   }
-  return /*#__PURE__*/React.createElement(React.Fragment, null, isVirtual ? /*#__PURE__*/React.createElement(_tntdSelect.default, (0, _extends2.default)({}, props, temp), tooltipChildren) : /*#__PURE__*/React.createElement(_select.default, (0, _extends2.default)({}, props, temp), tooltipChildren));
+  return /*#__PURE__*/React.createElement(React.Fragment, null, isVirtual ? /*#__PURE__*/React.createElement(_tntdSelect.default, (0, _extends2.default)({}, props, temp, {
+    className: "tooltip-select ".concat(props.className || '')
+  }), tooltipChildren) : /*#__PURE__*/React.createElement(_select.default, (0, _extends2.default)({}, props, temp, {
+    className: "tooltip-select ".concat(props.className || '')
+  }), tooltipChildren));
 }, function (pre, next) {
   var _pre$children, _next$children;
   return pre.isMemo && (pre === null || pre === void 0 ? void 0 : pre.value) === (next === null || next === void 0 ? void 0 : next.value) && (0, _lodash.isEqual)(pre === null || pre === void 0 || (_pre$children = pre.children) === null || _pre$children === void 0 ? void 0 : _pre$children.length, next === null || next === void 0 || (_next$children = next.children) === null || _next$children === void 0 ? void 0 : _next$children.length);
