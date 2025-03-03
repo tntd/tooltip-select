@@ -2,104 +2,106 @@ import { Select, Tooltip, TntdSelect, Ellipsis } from 'tntd';
 import { memo } from 'react';
 import { isArray, isEqual } from 'lodash';
 import "./index.less"
-const TooltipSelect = memo(
-    (props) => {
-        const {
-            children,
-            value,
-            isVirtual = false,
-            placement = 'top',
-            setTitle,
-            optionFilterProp,
-            filterOption = undefined,
-            readOnly = false // 增加 readOnly 属性
-        } = props;
+const TooltipSelect = memo((props) => {
+    const {
+        children,
+        value,
+        isVirtual = false,
+        placement,
+        setTitle,
+        optionFilterProp,
+        filterOption,
+        readOnly = false,
+    } = props;
 
-        let Option = isVirtual ? TntdSelect.Option : Select.Option;
-        let temp = {}; // 将原始的filterOption函数引用保存到一个新的变量
+    const Option = isVirtual ? TntdSelect.Option : Select.Option;
+    const temp = {};
 
-        const filterOptionFunction = (input, option) => {
-            // 创建一个新的option对象，其中props.children是由props.originChildren替换的
-            const newOption = {
-                ...option,
-                props: {
-                    ...option.props,
-                    children: option.props.originChildren || option.props.children
-                }
-            };
-            // 调用原始的filterOption函数
-            return filterOption(input, newOption);
+    const filterOptionFunction = (input, option) => {
+        const newOption = {
+            ...option,
+            props: {
+                ...option.props,
+                children: option.props.originChildren || option.props.children,
+            },
         };
+        return filterOption(input, newOption);
+    };
 
-        // 获取添加Tooltip的option子项
-        let tooltipChildren = [];
-
-        tooltipChildren = children?.map((item) => {
+    let tooltipChildren = [];
+    if (children?.length > 0) {
+        tooltipChildren = children.map((item) => {
             if (isArray(item)) {
-                return item?.map((item1) => {
+                return item.map((item1) => {
                     if (item1?.props?.value !== undefined && item1?.props?.value !== null) {
                         return (
-                            <Option {...item1?.props} originChildren={item1?.props.children}>
-                                <Tooltip title={setTitle ? setTitle(item1?.props?.children) : item1?.props?.children}>
-                                    <span style={{ marginRight: '5px' }}>{item1?.props?.children}</span>
+                            <Option {...item1.props} originChildren={item1.props.children} key={item1.props.value}>
+                                <Tooltip title={setTitle ? setTitle(item1.props.children) : item1.props.children} placement={placement}>
+                                    <span style={{ marginRight: '5px' }}>{item1.props.children}</span>
                                 </Tooltip>
                             </Option>
                         );
                     }
-                    return false;
+                    return null;
                 });
             }
             if (item?.props?.value !== undefined && item?.props?.value !== null) {
                 return (
-                    <Option {...item?.props} originChildren={item?.props.children}>
-                        <Tooltip title={setTitle ? setTitle(item?.props?.children) : item?.props?.children}>
-                            <span className="content" style={{ marginRight: '5px', width: "95%", display: "block", overflow: "hidden", textOverflow: "ellipsis" }}>{item?.props?.children}</span>
+                    <Option {...item.props} originChildren={item.props.children} key={item.props.value}>
+                        <Tooltip title={setTitle ? setTitle(item.props.children) : item.props.children} placement={placement}>
+                            <span
+                                className="content"
+                                style={{
+                                    marginRight: '5px',
+                                    width: '95%',
+                                    display: 'block',
+                                    overflow: 'hidden',
+                                    textOverflow: 'ellipsis',
+                                }}
+                            >
+                                {item.props.children}
+                            </span>
                         </Tooltip>
                     </Option>
                 );
             }
-            return false;
+            return null;
         });
-
-        if (props.filterOption) {
-            temp.filterOption = filterOptionFunction;
-        }
-        if (props.optionFilterProp) {
-            temp.optionFilterProp = props.optionFilterProp === 'children' ? 'originChildren' : props.optionFilterProp;
-        }
-
-        if (readOnly) {
-            // 如果是只读模式，直接显示选中内容而不渲染Select组件
-            const selectedOption = tooltipChildren?.find(
-                (option) => option?.props?.value === value
-            );
-            const dom = selectedOption ? selectedOption.props.originChildren : "- -"
-            return (
-                <Ellipsis title={dom}>{dom}</Ellipsis>
-            );
-        }
-
-        return (
-            <>
-                {isVirtual ? (
-                    <TntdSelect {...props} {...temp} className={`tooltip-select ${props.className || ''}`}>
-                        {tooltipChildren}
-                    </TntdSelect>
-                ) : (
-                    <Select {...props} {...temp} className={`tooltip-select ${props.className || ''}`}>
-                        {tooltipChildren}
-                    </Select>
-                )}
-            </>
-        );
-    },
-    (pre, next) => {
-        return (
-            pre.isMemo &&
-            pre?.value === next?.value &&
-            isEqual(pre?.children?.length, next?.children?.length)
-        );
     }
-);
+
+    if (filterOption) {
+        temp.filterOption = filterOptionFunction;
+    }
+    if (optionFilterProp) {
+        temp.optionFilterProp = optionFilterProp === 'children' ? 'originChildren' : optionFilterProp;
+    }
+
+    if (readOnly) {
+        const selectedOption = tooltipChildren.find((option) => option?.props?.value === value);
+        const dom = selectedOption ? selectedOption.props.originChildren : '- -';
+        return <Ellipsis title={dom}>{dom}</Ellipsis>;
+    }
+
+    return (
+        <>
+            {isVirtual ? (
+                <TntdSelect {...props} {...temp} className={`tooltip-select ${props.className || ''}`}>
+                    {tooltipChildren}
+                </TntdSelect>
+            ) : (
+                <Select {...props} {...temp} className={`tooltip-select ${props.className || ''}`}>
+                    {tooltipChildren}
+                </Select>
+            )}
+        </>
+    );
+}, (pre, next) => {
+    return (
+        pre.isMemo &&
+        pre?.value === next?.value &&
+        isEqual(pre?.children?.length, next?.children?.length)
+    );
+});
+
 
 export default TooltipSelect;
