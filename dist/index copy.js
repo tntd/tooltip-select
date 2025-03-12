@@ -9,6 +9,7 @@ var _ellipsis = _interopRequireDefault(require("tntd/es/ellipsis"));
 var _extends2 = _interopRequireDefault(require("@babel/runtime/helpers/extends"));
 var _tooltip = _interopRequireDefault(require("tntd/es/tooltip"));
 var _defineProperty2 = _interopRequireDefault(require("@babel/runtime/helpers/defineProperty"));
+var _slicedToArray2 = _interopRequireDefault(require("@babel/runtime/helpers/slicedToArray"));
 var _select = _interopRequireDefault(require("tntd/es/select"));
 var _tntdSelect = _interopRequireDefault(require("tntd/es/tntd-select"));
 var _react = require("react");
@@ -25,11 +26,18 @@ var TooltipSelect = /*#__PURE__*/(0, _react.memo)(function (props) {
     setTitle = props.setTitle,
     optionFilterProp = props.optionFilterProp,
     filterOption = props.filterOption,
-    onChange = props.onChange,
     _props$readOnly = props.readOnly,
-    readOnly = _props$readOnly === void 0 ? false : _props$readOnly;
+    readOnly = _props$readOnly === void 0 ? false : _props$readOnly,
+    mouseEnterDelay = props.mouseEnterDelay,
+    mouseLeaveDelay = props.mouseLeaveDelay,
+    onChange = props.onChange;
   var Option = isVirtual ? _tntdSelect.default.Option : _select.default.Option;
   var temp = {};
+  var _useState = (0, _react.useState)(null),
+    _useState2 = (0, _slicedToArray2.default)(_useState, 2),
+    hoveredOption = _useState2[0],
+    setHoveredOption = _useState2[1]; // 当前鼠标悬浮的 Option
+  var dropdownRef = (0, _react.useRef)(null);
   var filterOptionFunction = function filterOptionFunction(input, option) {
     var newOption = _objectSpread(_objectSpread({}, option), {}, {
       props: _objectSpread(_objectSpread({}, option.props), {}, {
@@ -39,6 +47,7 @@ var TooltipSelect = /*#__PURE__*/(0, _react.memo)(function (props) {
     return filterOption(input, newOption);
   };
   var handleChange = function handleChange(value, option) {
+    debugger;
     var newOption = _objectSpread(_objectSpread({}, option), {}, {
       props: _objectSpread(_objectSpread({}, option.props), {}, {
         children: option.props.originChildren || option.props.children
@@ -60,10 +69,20 @@ var TooltipSelect = /*#__PURE__*/(0, _react.memo)(function (props) {
               key: item1.props.value
             }), /*#__PURE__*/React.createElement(_tooltip.default, {
               title: setTitle ? setTitle(item1.props.children) : item1.props.children,
-              placement: placement
+              placement: "right",
+              mouseEnterDelay: mouseEnterDelay,
+              mouseLeaveDelay: mouseLeaveDelay,
+              overlayClassName: "option-tooltip",
+              visible: hoveredOption === item1.props.value // 仅当前选中项显示
             }, /*#__PURE__*/React.createElement("span", {
               style: {
                 marginRight: '5px'
+              },
+              onMouseEnter: function onMouseEnter() {
+                return setHoveredOption(item1.props.value);
+              },
+              onMouseLeave: function onMouseLeave() {
+                return setHoveredOption(null);
               }
             }, item1.props.children)));
           }
@@ -76,7 +95,13 @@ var TooltipSelect = /*#__PURE__*/(0, _react.memo)(function (props) {
           key: item.props.value
         }), /*#__PURE__*/React.createElement(_tooltip.default, {
           title: setTitle ? setTitle(item.props.children) : item.props.children,
-          placement: placement
+          placement: "right",
+          mouseEnterDelay: mouseEnterDelay,
+          mouseLeaveDelay: mouseLeaveDelay,
+          overlayClassName: "option-tooltip",
+          overlayStyle: {
+            opacity: hoveredOption === item.props.value ? 1 : 0
+          } // 仅当前选中项显示
         }, /*#__PURE__*/React.createElement("span", {
           className: "content",
           style: {
@@ -85,6 +110,12 @@ var TooltipSelect = /*#__PURE__*/(0, _react.memo)(function (props) {
             display: 'block',
             overflow: 'hidden',
             textOverflow: 'ellipsis'
+          },
+          onMouseEnter: function onMouseEnter() {
+            return setHoveredOption(item.props.value);
+          },
+          onMouseLeave: function onMouseLeave() {
+            return setHoveredOption(null);
           }
         }, item.props.children)));
       }
@@ -108,11 +139,23 @@ var TooltipSelect = /*#__PURE__*/(0, _react.memo)(function (props) {
     }, dom);
   }
   return /*#__PURE__*/React.createElement(React.Fragment, null, isVirtual ? /*#__PURE__*/React.createElement(_tntdSelect.default, (0, _extends2.default)({}, props, temp, {
-    onChange: handleChange,
-    className: "tooltip-select ".concat(props.className || '')
+    className: "tooltip-select ".concat(props.className || ''),
+    dropdownRender: function dropdownRender(menu) {
+      return /*#__PURE__*/React.createElement("div", {
+        ref: dropdownRef,
+        className: "dropdown-container"
+      }, menu);
+    },
+    onChange: handleChange // Added onChange handler
   }), tooltipChildren) : /*#__PURE__*/React.createElement(_select.default, (0, _extends2.default)({}, props, temp, {
-    onChange: handleChange,
-    className: "tooltip-select ".concat(props.className || '')
+    className: "tooltip-select ".concat(props.className || ''),
+    dropdownRender: function dropdownRender(menu) {
+      return /*#__PURE__*/React.createElement("div", {
+        ref: dropdownRef,
+        className: "dropdown-container"
+      }, menu);
+    },
+    onChange: handleChange // Added onChange handler
   }), tooltipChildren));
 }, function (pre, next) {
   var _pre$children, _next$children;

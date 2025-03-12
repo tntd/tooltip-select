@@ -26,10 +26,11 @@ const Demo = (props) => {
         setTitle={(value) => {
           return <a><div style={{ width: "5px", height: "5px", background: "red" }}></div>{value}</a>
         }}
-        filterOption={(input, option) =>
-          (Array.isArray(option.props.children) ? option.props.children.join("") : option.props.children).toLowerCase().indexOf(input.toLowerCase()) >= 0}
+        // filterOption={(input, option) =>
+        //   (Array.isArray(option.props.children) ? option.props.children.join("") : option.props.children).toLowerCase().indexOf(input.toLowerCase()) >= 0}
 
-        onChange={(value) => {
+        onChange={(value, option) => {
+          debugger
           setTitle(value);
         }}
         style={{ width: "150px" }}
@@ -38,7 +39,7 @@ const Demo = (props) => {
       >
 
         {words?.map((item, index) => (
-          <Option key={index} value={index}>
+          <Option key={index} value={index} data={index + "666"}>
             <sup >{index}</sup>
             {item}
           </Option>

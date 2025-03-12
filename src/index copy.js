@@ -1,7 +1,8 @@
 import { Select, Tooltip, TntdSelect, Ellipsis } from 'tntd';
-import { memo } from 'react';
-import { isArray, isEqual } from 'lodash';
-import "./index.less"
+import { memo, useEffect, useState, useRef } from 'react';
+import { debounce, isArray, isEqual } from 'lodash';
+import "./index.less";
+
 const TooltipSelect = memo((props) => {
     const {
         children,
@@ -11,12 +12,16 @@ const TooltipSelect = memo((props) => {
         setTitle,
         optionFilterProp,
         filterOption,
-        onChange,
         readOnly = false,
+        mouseEnterDelay,
+        mouseLeaveDelay,
+        onChange // Added onChange to props
     } = props;
 
     const Option = isVirtual ? TntdSelect.Option : Select.Option;
     const temp = {};
+    const [hoveredOption, setHoveredOption] = useState(null); // 当前鼠标悬浮的 Option
+    const dropdownRef = useRef(null);
 
     const filterOptionFunction = (input, option) => {
         const newOption = {
@@ -30,6 +35,7 @@ const TooltipSelect = memo((props) => {
     };
 
     const handleChange = (value, option) => {
+        debugger
         const newOption = {
             ...option,
             props: {
@@ -48,8 +54,21 @@ const TooltipSelect = memo((props) => {
                     if (item1?.props?.value !== undefined && item1?.props?.value !== null) {
                         return (
                             <Option {...item1.props} originChildren={item1.props.children} key={item1.props.value}>
-                                <Tooltip title={setTitle ? setTitle(item1.props.children) : item1.props.children} placement={placement}>
-                                    <span style={{ marginRight: '5px' }}>{item1.props.children}</span>
+                                <Tooltip
+                                    title={setTitle ? setTitle(item1.props.children) : item1.props.children}
+                                    placement="right"
+                                    mouseEnterDelay={mouseEnterDelay}
+                                    mouseLeaveDelay={mouseLeaveDelay}
+                                    overlayClassName="option-tooltip"
+                                    visible={hoveredOption === item1.props.value} // 仅当前选中项显示
+                                >
+                                    <span
+                                        style={{ marginRight: '5px' }}
+                                        onMouseEnter={() => setHoveredOption(item1.props.value)}
+                                        onMouseLeave={() => setHoveredOption(null)}
+                                    >
+                                        {item1.props.children}
+                                    </span>
                                 </Tooltip>
                             </Option>
                         );
@@ -60,7 +79,14 @@ const TooltipSelect = memo((props) => {
             if (item?.props?.value !== undefined && item?.props?.value !== null) {
                 return (
                     <Option {...item.props} originChildren={item.props.children} key={item.props.value}>
-                        <Tooltip title={setTitle ? setTitle(item.props.children) : item.props.children} placement={placement}>
+                        <Tooltip
+                            title={setTitle ? setTitle(item.props.children) : item.props.children}
+                            placement="right"
+                            mouseEnterDelay={mouseEnterDelay}
+                            mouseLeaveDelay={mouseLeaveDelay}
+                            overlayClassName="option-tooltip"
+                            overlayStyle={{ opacity: hoveredOption === item.props.value ? 1 : 0 }} // 仅当前选中项显示
+                        >
                             <span
                                 className="content"
                                 style={{
@@ -70,6 +96,8 @@ const TooltipSelect = memo((props) => {
                                     overflow: 'hidden',
                                     textOverflow: 'ellipsis',
                                 }}
+                                onMouseEnter={() => setHoveredOption(item.props.value)}
+                                onMouseLeave={() => setHoveredOption(null)}
                             >
                                 {item.props.children}
                             </span>
@@ -97,11 +125,31 @@ const TooltipSelect = memo((props) => {
     return (
         <>
             {isVirtual ? (
-                <TntdSelect {...props} {...temp} onChange={handleChange} className={`tooltip-select ${props.className || ''}`}>
+                <TntdSelect
+                    {...props}
+                    {...temp}
+                    className={`tooltip-select ${props.className || ''}`}
+                    dropdownRender={(menu) => (
+                        <div ref={dropdownRef} className="dropdown-container">
+                            {menu}
+                        </div>
+                    )}
+                    onChange={handleChange} // Added onChange handler
+                >
                     {tooltipChildren}
                 </TntdSelect>
             ) : (
-                <Select {...props} {...temp} onChange={handleChange} className={`tooltip-select ${props.className || ''}`}>
+                <Select
+                    {...props}
+                    {...temp}
+                    className={`tooltip-select ${props.className || ''}`}
+                    dropdownRender={(menu) => (
+                        <div ref={dropdownRef} className="dropdown-container">
+                            {menu}
+                        </div>
+                    )}
+                    onChange={handleChange} // Added onChange handler
+                >
                     {tooltipChildren}
                 </Select>
             )}
@@ -114,6 +162,5 @@ const TooltipSelect = memo((props) => {
         isEqual(pre?.children?.length, next?.children?.length)
     );
 });
-
 
 export default TooltipSelect;
