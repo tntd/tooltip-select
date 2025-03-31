@@ -19,25 +19,52 @@ const TooltipSelect = memo((props) => {
     const temp = {};
 
     const filterOptionFunction = (input, option) => {
-        const newOption = {
-            ...option,
-            props: {
-                ...option.props,
-                children: option.props.originChildren || option.props.children,
-            },
+        if (Array.isArray(option)) {
+            // 处理多选情况，option是数组
+            const newOption = option.map(opt => ({
+                ...opt,
+                props: {
+                    ...opt.props,
+                    children: opt.props.originChildren || opt.props.children,
+                },
+            }));
+            return filterOption(input, newOption);
+
+        } else {
+            // 处理单选情况，option是单个对象
+            const newOption1 = {
+                ...option,
+                props: {
+                    ...option.props,
+                    children: option.props.originChildren || option.props.children,
+                },
+            };
+            return filterOption(input, newOption1);
         };
-        return filterOption(input, newOption);
-    };
+    }
 
     const handleChange = (value, option) => {
-        const newOption = {
-            ...option,
-            props: {
-                ...option.props,
-                children: option.props.originChildren || option.props.children,
-            },
-        };
-        onChange(value, newOption); // Modified onChange to use the new option
+        if (Array.isArray(option)) {
+            // 处理多选情况，option是数组
+            const newOptions = option.map(opt => ({
+                ...opt,
+                props: {
+                    ...opt.props,
+                    children: opt.props.originChildren || opt.props.children,
+                },
+            }));
+            onChange(value, newOptions);
+        } else {
+            // 处理单选情况，option是单个对象
+            const newOption1 = {
+                ...option,
+                props: {
+                    ...option.props,
+                    children: option.props.originChildren || option.props.children,
+                },
+            };
+            onChange(value, newOption1);
+        }
     };
 
     let tooltipChildren = [];

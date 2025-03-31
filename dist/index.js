@@ -31,22 +31,48 @@ var TooltipSelect = /*#__PURE__*/(0, _react.memo)(function (props) {
   var Option = isVirtual ? _tntdSelect.default.Option : _select.default.Option;
   var temp = {};
   var filterOptionFunction = function filterOptionFunction(input, option) {
-    var newOption = _objectSpread(_objectSpread({}, option), {}, {
-      props: _objectSpread(_objectSpread({}, option.props), {}, {
-        children: option.props.originChildren || option.props.children
-      })
-    });
-    return filterOption(input, newOption);
+    if (Array.isArray(option)) {
+      // 处理多选情况，option是数组
+      var newOption = option.map(function (opt) {
+        return _objectSpread(_objectSpread({}, opt), {}, {
+          props: _objectSpread(_objectSpread({}, opt.props), {}, {
+            children: opt.props.originChildren || opt.props.children
+          })
+        });
+      });
+      return filterOption(input, newOption);
+    } else {
+      // 处理单选情况，option是单个对象
+      var newOption1 = _objectSpread(_objectSpread({}, option), {}, {
+        props: _objectSpread(_objectSpread({}, option.props), {}, {
+          children: option.props.originChildren || option.props.children
+        })
+      });
+      return filterOption(input, newOption1);
+    }
+    ;
   };
   var handleChange = function handleChange(value, option) {
-    var newOption = _objectSpread(_objectSpread({}, option), {}, {
-      props: _objectSpread(_objectSpread({}, option.props), {}, {
-        children: option.props.originChildren || option.props.children
-      })
-    });
-    onChange(value, newOption); // Modified onChange to use the new option
+    if (Array.isArray(option)) {
+      // 处理多选情况，option是数组
+      var newOptions = option.map(function (opt) {
+        return _objectSpread(_objectSpread({}, opt), {}, {
+          props: _objectSpread(_objectSpread({}, opt.props), {}, {
+            children: opt.props.originChildren || opt.props.children
+          })
+        });
+      });
+      onChange(value, newOptions);
+    } else {
+      // 处理单选情况，option是单个对象
+      var newOption1 = _objectSpread(_objectSpread({}, option), {}, {
+        props: _objectSpread(_objectSpread({}, option.props), {}, {
+          children: option.props.originChildren || option.props.children
+        })
+      });
+      onChange(value, newOption1);
+    }
   };
-
   var tooltipChildren = [];
   if ((children === null || children === void 0 ? void 0 : children.length) > 0) {
     tooltipChildren = children.map(function (item) {

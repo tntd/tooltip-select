@@ -15,9 +15,7 @@ const Demo = (props) => {
   return (
     <div
       style={{ marginTop: "200px" }}>
-
       <TooltipSelect
-
         dropdownMatchSelectWidth={false}
         isVirtual
         value={title}
@@ -26,8 +24,8 @@ const Demo = (props) => {
         setTitle={(value) => {
           return <a><div style={{ width: "5px", height: "5px", background: "red" }}></div>{value}</a>
         }}
-        // filterOption={(input, option) =>
-        //   (Array.isArray(option.props.children) ? option.props.children.join("") : option.props.children).toLowerCase().indexOf(input.toLowerCase()) >= 0}
+        filterOption={(input, option) =>
+          (Array.isArray(option.props.children) ? option.props.children.join("") : option.props.children).toLowerCase().indexOf(input.toLowerCase()) >= 0}
 
         onChange={(value, option) => {
           debugger
@@ -46,6 +44,95 @@ const Demo = (props) => {
         ))}
 
       </TooltipSelect>
+      <TooltipSelect
+        mode="multiple"
+        dropdownMatchSelectWidth={false}
+        isVirtual
+        value={title}
+        placement="left"
+        optionFilterProp="children"
+        setTitle={(value) => {
+          return <a><div style={{ width: "5px", height: "5px", background: "red" }}></div>{value}</a>
+        }}
+        filterOption={(input, option) =>
+          (Array.isArray(option.props.children) ? option.props.children.join("") : option.props.children).toLowerCase().indexOf(input.toLowerCase()) >= 0}
+
+        onChange={(value, option) => {
+          debugger
+          setTitle(value);
+        }}
+        style={{ width: "150px" }}
+        allowClear
+        showSearch
+      >
+
+        {words?.map((item, index) => (
+          <Option key={index} value={index} data={index + "666"}>
+            <sup >{index}</sup>
+            {item}
+          </Option>
+        ))}
+
+      </TooltipSelect>
+      <Select
+        dropdownMatchSelectWidth={false}
+        isVirtual
+        value={title}
+        placement="left"
+        optionFilterProp="children"
+        setTitle={(value) => {
+          return <a><div style={{ width: "5px", height: "5px", background: "red" }}></div>{value}</a>
+        }}
+        filterOption={(input, option) =>
+          (Array.isArray(option.props.children) ? option.props.children.join("") : option.props.children).toLowerCase().indexOf(input.toLowerCase()) >= 0}
+
+        onChange={(value, option) => {
+          debugger
+          setTitle(value);
+        }}
+        style={{ width: "150px" }}
+        allowClear
+        showSearch
+      >
+
+        {words?.map((item, index) => (
+          <Option key={index} value={index} data={index + "666"}>
+            <sup >{index}</sup>
+            {item}
+          </Option>
+        ))}
+
+      </Select>
+      <Select
+        mode="multiple"
+        dropdownMatchSelectWidth={false}
+        isVirtual
+        value={title}
+        placement="left"
+        optionFilterProp="children"
+        setTitle={(value) => {
+          return <a><div style={{ width: "5px", height: "5px", background: "red" }}></div>{value}</a>
+        }}
+        filterOption={(input, option) =>
+          (Array.isArray(option.props.children) ? option.props.children.join("") : option.props.children).toLowerCase().indexOf(input.toLowerCase()) >= 0}
+
+        onChange={(value, option) => {
+          debugger
+          setTitle(value);
+        }}
+        style={{ width: "150px" }}
+        allowClear
+        showSearch
+      >
+
+        {words?.map((item, index) => (
+          <Option key={index} value={index} data={index + "666"}>
+            <sup >{index}</sup>
+            {item}
+          </Option>
+        ))}
+
+      </Select>
     </div>
 
 
