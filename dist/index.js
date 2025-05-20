@@ -31,43 +31,45 @@ var TooltipSelect = /*#__PURE__*/(0, _react.memo)(function (props) {
   var Option = isVirtual ? _tntdSelect.default.Option : _select.default.Option;
   var temp = {};
   var filterOptionFunction = function filterOptionFunction(input, option) {
+    var _option$props, _option$props2;
     if (Array.isArray(option)) {
       // 处理多选情况，option是数组
-      var newOption = option.map(function (opt) {
+      var newOption = option === null || option === void 0 ? void 0 : option.map(function (opt) {
+        var _opt$props, _opt$props2;
         return _objectSpread(_objectSpread({}, opt), {}, {
-          props: _objectSpread(_objectSpread({}, opt.props), {}, {
-            children: opt.props.originChildren || opt.props.children
+          props: _objectSpread(_objectSpread({}, opt === null || opt === void 0 ? void 0 : opt.props), {}, {
+            children: (opt === null || opt === void 0 || (_opt$props = opt.props) === null || _opt$props === void 0 ? void 0 : _opt$props.originChildren) || (opt === null || opt === void 0 || (_opt$props2 = opt.props) === null || _opt$props2 === void 0 ? void 0 : _opt$props2.children)
           })
         });
       });
       return filterOption(input, newOption);
-    } else {
-      // 处理单选情况，option是单个对象
-      var newOption1 = _objectSpread(_objectSpread({}, option), {}, {
-        props: _objectSpread(_objectSpread({}, option.props), {}, {
-          children: option.props.originChildren || option.props.children
-        })
-      });
-      return filterOption(input, newOption1);
     }
-    ;
+    // 处理单选情况，option是单个对象
+    var newOption1 = _objectSpread(_objectSpread({}, option), {}, {
+      props: _objectSpread(_objectSpread({}, option === null || option === void 0 ? void 0 : option.props), {}, {
+        children: (option === null || option === void 0 || (_option$props = option.props) === null || _option$props === void 0 ? void 0 : _option$props.originChildren) || (option === null || option === void 0 || (_option$props2 = option.props) === null || _option$props2 === void 0 ? void 0 : _option$props2.children)
+      })
+    });
+    return filterOption(input, newOption1);
   };
   var handleChange = function handleChange(value, option) {
     if (Array.isArray(option)) {
       // 处理多选情况，option是数组
-      var newOptions = option.map(function (opt) {
+      var newOptions = option === null || option === void 0 ? void 0 : option.map(function (opt) {
+        var _opt$props3, _opt$props4;
         return _objectSpread(_objectSpread({}, opt), {}, {
-          props: _objectSpread(_objectSpread({}, opt.props), {}, {
-            children: opt.props.originChildren || opt.props.children
+          props: _objectSpread(_objectSpread({}, opt === null || opt === void 0 ? void 0 : opt.props), {}, {
+            children: (opt === null || opt === void 0 || (_opt$props3 = opt.props) === null || _opt$props3 === void 0 ? void 0 : _opt$props3.originChildren) || (opt === null || opt === void 0 || (_opt$props4 = opt.props) === null || _opt$props4 === void 0 ? void 0 : _opt$props4.children)
           })
         });
       });
       onChange(value, newOptions);
     } else {
+      var _option$props3, _option$props4;
       // 处理单选情况，option是单个对象
       var newOption1 = _objectSpread(_objectSpread({}, option), {}, {
-        props: _objectSpread(_objectSpread({}, option.props), {}, {
-          children: option.props.originChildren || option.props.children
+        props: _objectSpread(_objectSpread({}, option === null || option === void 0 ? void 0 : option.props), {}, {
+          children: (option === null || option === void 0 || (_option$props3 = option.props) === null || _option$props3 === void 0 ? void 0 : _option$props3.originChildren) || (option === null || option === void 0 || (_option$props4 = option.props) === null || _option$props4 === void 0 ? void 0 : _option$props4.children)
         })
       });
       onChange(value, newOption1);
@@ -125,8 +127,8 @@ var TooltipSelect = /*#__PURE__*/(0, _react.memo)(function (props) {
   }
   if (readOnly) {
     var selectedOption = tooltipChildren.find(function (option) {
-      var _option$props;
-      return (option === null || option === void 0 || (_option$props = option.props) === null || _option$props === void 0 ? void 0 : _option$props.value) === value;
+      var _option$props5;
+      return (option === null || option === void 0 || (_option$props5 = option.props) === null || _option$props5 === void 0 ? void 0 : _option$props5.value) === value;
     });
     var dom = selectedOption ? selectedOption.props.originChildren : '- -';
     return /*#__PURE__*/React.createElement(_ellipsis.default, {
